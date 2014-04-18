@@ -3,11 +3,16 @@
  */
 exports.getLunches = function (lunchRetriever) {
     var requestHandler = function (request, response) {
-    var person = JSON.parse(request.query.person);
-        lunchRetriever.getLunchesForPerson(person, function(lunchesRetrieved){
-            response.send(lunchesRetrieved);
 
-        });
+        try {
+            var person = JSON.parse(request.query.person);
+            lunchRetriever.getLunchesForPerson(person, function (lunchesRetrieved) {
+                response.send(lunchesRetrieved);
+
+            });
+        } catch (parseException) {
+            response.send();
+        }
     };
     return requestHandler;
 };

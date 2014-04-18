@@ -34,6 +34,14 @@ suite('PersonRetrieverTest', function () {
         })
 
     });
+    test('will retrieve a person by case insensitive email', function (testDone) {
+        var personRetriever = new PersonRetriever(databaseAdapter);
+        personRetriever.getPerson('LASTSON@YaHoO.com', function(personRetrieved){
+            assert.equal(superman, personRetrieved);
+            testDone();
+        })
+
+    });
 
     test('will retrieve somone else by email', function (testDone) {
         var personRetriever = new PersonRetriever(databaseAdapter);

@@ -11,7 +11,7 @@ PersonRetriever.prototype = {
 
             var personFound = false;
             allPeople.forEach(function (person) {
-                if (person.email == email) {
+                if (person.email.toLowerCase() == email.toLowerCase()) {
                     personFound = true;
                     personRetrieved(person);
                     return;

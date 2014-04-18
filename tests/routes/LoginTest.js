@@ -33,7 +33,7 @@ suite('LoginTest', function () {
         var sendWasCalled = false;;
         var mockSend = function (viewData) {
             sendWasCalled = true;
-            assert.deepEqual(viewData.personFound, personToFind);
+            assert.deepEqual(viewData, personToFind);
         };
         var response = new MockResponse(mockSend);
 
@@ -55,7 +55,7 @@ suite('LoginTest', function () {
         var sendWasCalled= false;;
         var send = function (viewData) {
             sendWasCalled = true;
-            assert.deepEqual(viewData.personFound, undefined)
+            assert.deepEqual(viewData, undefined)
         };
         var response = new MockResponse(send);
 
@@ -77,7 +77,7 @@ suite('LoginTest', function () {
         var sendWasCalled= false;;
         var send = function (viewData) {
             sendWasCalled = true;
-            assert.deepEqual(viewData.personFound, undefined)
+            assert.deepEqual(viewData, undefined)
         };
         var response = new MockResponse(send);
 

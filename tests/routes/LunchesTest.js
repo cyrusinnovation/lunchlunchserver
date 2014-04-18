@@ -60,4 +60,29 @@ suite('LunchesTest', function () {
     });
 
 
+    test('will return nothing if there is not person passed in', function (testDone) {
+
+
+
+
+        var route = new lunchRoute.getLunches(this.lunchRetriever);
+
+
+        var request = {query: ""};
+
+        var sendWasCalled = false;
+        var mockSend = function (viewData) {
+            sendWasCalled = true;
+            assert.deepEqual(viewData, undefined);
+        };
+        var response = new MockResponse(mockSend);
+
+        route(request, response);
+
+        assert.deepEqual(personPassedIn, undefined);
+        assert(sendWasCalled);
+        testDone();
+    });
+
+
 })

@@ -13,12 +13,16 @@ LunchRetriever.prototype = {
                     lunchesForPerson.push(lunch)
                 }
             })
+
+            lunchesReceived(lunchesForPerson);
         });
-        lunchesReceived(lunchesForPerson);
+
+
     }
 }
 
 function jsonEquals(object1, object2) {
+    
     return  JSON.stringify(object1) === JSON.stringify(object2)
 }
 

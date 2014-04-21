@@ -6,6 +6,7 @@
  */
 var LunchBuddyFinder = require('./LunchBuddyFinder');
 var DatabaseAdapter = require('./DatabaseAdapter');
+
 var config = require('../config');
 function LunchBuddyFinderFactory() {
 }

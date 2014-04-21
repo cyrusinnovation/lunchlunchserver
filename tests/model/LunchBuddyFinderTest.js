@@ -4,11 +4,11 @@ var LunchBuddyFinder = require('../../model/LunchBuddyFinder');
 
 var sinon = require('sinon');
 
-var sandor = {_id:"2125210f2124", firstName: 'Sandor', lastName: 'Clegane', email: 'hound@clegane.net'};
-var brienne = {_id:"5423gfnf",firstName: 'Brienne', lastName: 'Tarth', email: 'serbriennee@sapphires.com'};
-var ned = {_id:"ngfdgh23235",firstName: 'Eddard', lastName: 'Stark', email: 'lordned@winterfell.net'};
-var arya = {_id:"xct2323xc2",firstName: 'Arya', lastName: 'Stark', email: 'valarmorgulis@winterfell.net'};
-var robert = {_id:"52361g3",firstName: 'Robert', lastName: 'Baratheon', email: 'rking@kingslanding.com'};
+var sandor = {_id:"123456789012", firstName: 'Sandor', lastName: 'Clegane', email: 'hound@clegane.net'};
+var brienne = {_id:"adsfvcscasdg",firstName: 'Brienne', lastName: 'Tarth', email: 'serbriennee@sapphires.com'};
+var ned = {_id:"sdjgmbo1293m",firstName: 'Eddard', lastName: 'Stark', email: 'lordned@winterfell.net'};
+var arya = {_id:"sdavcsdetfdc",firstName: 'Arya', lastName: 'Stark', email: 'valarmorgulis@winterfell.net'};
+var robert = {_id:"123cjvdsvdse",firstName: 'Robert', lastName: 'Baratheon', email: 'rking@kingslanding.com'};
 
 suite('LunchBuddyFinderTest', function () {
     var databaseAdapter = new DatabaseAdapter('localhost/testDb');
@@ -33,7 +33,7 @@ suite('LunchBuddyFinderTest', function () {
         });
         allPeopleToFind = [brienne, ned, arya, robert];
         finder.findALunchBuddy(sandor, function (buddyFound) {
-            assert.deepEqual(filterPassedIn, {_id:{$ne:sandor._id}});
+            assert.deepEqual(filterPassedIn, {_id:{$ne:  new ObjectID(sandor._id)}});
             assert.equal(buddyFound, robert);
         });
 
@@ -46,7 +46,7 @@ suite('LunchBuddyFinderTest', function () {
         });
         allPeopleToFind = [ned, arya, robert, sandor];
         finder.findALunchBuddy(brienne, function (buddyFound) {
-            assert.deepEqual(filterPassedIn, {_id:{$ne:brienne._id}});
+            assert.deepEqual(filterPassedIn, {_id:{$ne: new ObjectID(brienne._id)}});
             assert.equal(buddyFound, arya);
         });
 

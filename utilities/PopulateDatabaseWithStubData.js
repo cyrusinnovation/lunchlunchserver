@@ -14,15 +14,15 @@ suite('PopulateDatabaseWithStubData', function () {
     var stubPeople = [ironman, thor, wasp, antman, hulk ];
 
     var stubLunches = [
-        {person1: ironman, person2: thor, dateTime: new Date(2017, 11, 7)},
+        {person1: ironman, person2: thor, dateTime: new Date(2017,  7,11)},
         {person1: ironman, person2: wasp, dateTime: new Date(2013, 5, 7)},
-        {person1: ironman, person2: antman, dateTime: new Date(2027, 9, 25)},
-        {person1: ironman, person2: hulk, dateTime: new Date(2014, 2, 14)},
-        {person1: thor, person2: wasp, dateTime: new Date(2092, 12, 5)},
-        {person1: thor, person2: antman, dateTime: new Date(2019, 4, 22)},
-        {person1: thor, person2: hulk, dateTime: new Date(2015, 2, 3)},
-        {person1: wasp, person2: antman, dateTime: new Date(2013, 9, 12)},
-        {person1: wasp, person2: hulk, dateTime: new Date(2017, 10, 7)}
+        {person1: ironman, person2: antman, dateTime: new Date(2027, 25,9)},
+        {person1: ironman, person2: hulk, dateTime: new Date(2014, 14, 2)},
+        {person1: thor, person2: wasp, dateTime: new Date(2092, 5, 12)},
+        {person1: thor, person2: antman, dateTime: new Date(2019, 22, 4)},
+        {person1: thor, person2: hulk, dateTime: new Date(2015, 3, 2)},
+        {person1: wasp, person2: antman, dateTime: new Date(2013, 12, 9)},
+        {person1: wasp, person2: hulk, dateTime: new Date(2017, 7, 10)}
     ];
 
     test('Not really a test, just a means to populate the database', function (done) {

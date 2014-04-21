@@ -1,9 +1,10 @@
 var PersonRetriever = require('./PersonRetriever');
 var DatabaseAdapter = require('./DatabaseAdapter')
+var config = require('../config');
 function PersonRetrieverFactory() {
 }
 PersonRetrieverFactory.prototype = {
     buildPersonRetriever: function () {
-        return new PersonRetriever(new DatabaseAdapter('localhost:27017/LunchLunchDB'));
+        return new PersonRetriever(new DatabaseAdapter(config.mongoUrl));
     }};
 module.exports = PersonRetrieverFactory;

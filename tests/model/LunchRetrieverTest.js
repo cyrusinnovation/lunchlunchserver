@@ -22,8 +22,10 @@ suite('LunchRetrieverTest', function () {
 
     var databaseAdapter = new DatabaseAdapter('localhost/testDb');
     var sinonStub;
+    var filterPassedIn;
     setup(function (setupFinished) {
-         sinonStub = sinon.stub(databaseAdapter, 'getLunches', function (lunchesGotten) {
+         sinonStub = sinon.stub(databaseAdapter, 'getLunches', function (filter, lunchesGotten) {
+             filterPassedIn = filter;
             lunchesGotten(allLunches);
         });
         setupFinished();
@@ -36,12 +38,16 @@ suite('LunchRetrieverTest', function () {
     test('will get all lunches for a person', function (testDone) {
         var lunchRetriever = new LunchRetriever(databaseAdapter);
         lunchRetriever.getLunchesForPerson(kilgore, function (lunchesReceived) {
+
+
             assert.equal(lunchesReceived.length, 3);
             assert.equal(lunchesReceived[0], lunch1);
             assert.equal(lunchesReceived[1], lunch2);
             assert.equal(lunchesReceived[2], lunch4);
+            assert.deepEqual(filterPassedIn,{});
             testDone();
         })
+
     });
 
 

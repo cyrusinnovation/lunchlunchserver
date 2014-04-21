@@ -7,7 +7,7 @@ var LunchRetriever = function (databaseAdapter) {
 LunchRetriever.prototype = {
     getLunchesForPerson: function (person, lunchesReceived) {
         var lunchesForPerson = new Array();
-        this.databaseAdapter.getLunches(function (allLunches) {
+        this.databaseAdapter.getLunches({},function (allLunches) {
             allLunches.forEach(function (lunch) {
                 if (jsonEquals(lunch.person1, person) || jsonEquals(lunch.person2, person)) {
                     lunchesForPerson.push(lunch)

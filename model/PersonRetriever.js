@@ -7,17 +7,12 @@ var PersonRetriever = function (adapter) {
 }
 PersonRetriever.prototype = {
     getPerson: function (email, personRetrieved) {
-        this.databaseAdapter.getPeople(function (allPeople) {
-
-            var personFound = false;
-            allPeople.forEach(function (person) {
-                if (person.email.toLowerCase() == email.toLowerCase()) {
-                    personFound = true;
-                    personRetrieved(person);
-                    return;
-                }
-            })
-            if (!personFound) {
+      var filter =  {email:{ $regex :email, $options:'i'}};
+        this.databaseAdapter.getPeople(filter,function (allPeople) {
+          if(allPeople.length > 0){
+                personRetrieved(allPeople[0]);
+            }
+            else{
                 personRetrieved();
             }
         })

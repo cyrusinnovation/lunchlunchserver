@@ -69,9 +69,7 @@ suite('LoginTest', function () {
 
 
     test('will return nothing there is no email', function (testDone) {
-
         var route = new loginRoute.login(this.personRetriever);
-
 
         var request = { query: {speemail: ""}};
         var sendWasCalled= false;;

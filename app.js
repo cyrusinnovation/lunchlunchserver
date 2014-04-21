@@ -10,11 +10,13 @@ var http = require('http');
 var path = require('path');
 var login = require('./routes/login');
 var lunches = require('./routes/lunches');
+var buddy = require('./routes/buddy');
 var PersonRetrieverFactory = require('./model/PersonRetrieverFactory');
 var personRetrieverFactory = new PersonRetrieverFactory();
 var LunchRetrieverFactory = require('./model/LunchRetrieverFactory');
 var lunchRetrieverFactory = new LunchRetrieverFactory();
-
+var LunchBuddyFinderFactory = require('./model/LunchBuddyFinderFactory');
+var lunchBuddyFinderFactory = new LunchBuddyFinderFactory();
 var app = express();
 
 // all environments
@@ -41,6 +43,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/login', login.login(personRetrieverFactory.buildPersonRetriever()));
 app.get('/getLunches', lunches.getLunches(lunchRetrieverFactory.buildLunchRetriever()));
+app.get('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder()));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

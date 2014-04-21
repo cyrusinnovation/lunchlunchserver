@@ -1,5 +1,6 @@
 var assert = require('assert');
 
+var MongoEqualityHelper = require('../../model/MongoEqualityHelper');
 var DatabaseAdapter = require('../../model/DatabaseAdapter');
 var mongoUrl = 'localhost/testDb';
 var monk = require('monk');
@@ -35,20 +36,82 @@ suite('DatabaseAdapterTest', function () {
 
     });
 
-    test('can get people from the database adapter', function (testDone) {
+    test('can get all people from the database adapter', function (testDone) {
        var databaseAdapter = new DatabaseAdapter(mongoUrl);
-        databaseAdapter.getPeople(function(peopleRetrieved){
-            console.log(peopleRetrieved);
+        databaseAdapter.getPeople({},function(peopleRetrieved){
             assert. deepEqual(peopleRetrieved, expectedPeople);
+            testDone();
+        })
+    });
+    test('can search people from the database adapter', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+        databaseAdapter.getPeople({email:'MSmithy@google.com'},function(peopleRetrieved){
+            assert. equal(1, peopleRetrieved.length);
+            assert.deepEqual(mickey, peopleRetrieved[0]);
+
+            testDone();
+        })
+    });
+
+    test('can search people from the database adapter with complete object as the filter', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+        databaseAdapter.getPeople(rose,function(peopleRetrieved){
+            assert. equal(1, peopleRetrieved.length);
+            assert.deepEqual(rose, peopleRetrieved[0]);
+
+            testDone();
+        })
+    });
+
+    test('can search people with regex the database adapter', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+        databaseAdapter.getPeople({email:{ $regex :'girlwhowaited@YAHOO.com', $options:'i'}},function(peopleRetrieved){
+            assert. equal(1, peopleRetrieved.length);
+            assert.deepEqual(amy, peopleRetrieved[0]);
+
+            testDone();
+        })
+    });
+    test('can get all lunches from the database adapter', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+        databaseAdapter.getLunches({},function(lunchesRetrieved){
+            assert.deepEqual(lunchesRetrieved, expectedLunches);
             testDone();
         })
     });
 
 
-    test('can get lunches from the database adapter', function (testDone) {
+    test('can search lunches from the database adapter', function (testDone) {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
-        databaseAdapter.getLunches(function(lunchesRetrieved){
-            assert. deepEqual(lunchesRetrieved, expectedLunches);
+        databaseAdapter.getLunches({person1:rory},function(lunchesRetrieved){
+            assert. equal(1, lunchesRetrieved.length);
+            assert.deepEqual(expectedLunches[1], lunchesRetrieved[0]);
+
+            testDone();
+        })
+    });
+    test('can search lunches from the database adapter with some sub searching', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+        databaseAdapter.getLunches({"person1.firstName": 'Rory'},function(lunchesRetrieved){
+            assert. equal(1, lunchesRetrieved.length);
+            assert.deepEqual(expectedLunches[1], lunchesRetrieved[0]);
+
+            testDone();
+        })
+    });
+
+    test('equality helper will help do object level assertion', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+        var equivalentToAmyPond = {firstName: 'Amy', lastName: 'Pond', email: 'girlwhowaited@yahoo.com'};
+        var mongoEqualityHelper = new MongoEqualityHelper();
+        var filter = mongoEqualityHelper.buildSubObjectEqualityFilter("person1", equivalentToAmyPond);
+
+        databaseAdapter.getLunches(filter,function(lunchesRetrieved){
+            assert. equal(3, lunchesRetrieved.length);
+            assert.deepEqual( lunchesRetrieved[0],expectedLunches[0]);
+            assert.deepEqual( lunchesRetrieved[1],expectedLunches[2]);
+            assert.deepEqual( lunchesRetrieved[2],expectedLunches[4]);
+
             testDone();
         })
     });

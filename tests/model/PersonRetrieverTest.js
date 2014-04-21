@@ -5,19 +5,17 @@ var PersonRetriever = require('../../model/PersonRetriever');
 suite('PersonRetrieverTest', function () {
 
     var batman = {firstName: 'Bruce', lastName: 'Wayen', email: 'iamthenight@gmail.com'};
-    var superman = {firstName: 'Clark', lastName: 'Kent', email: 'lastson@yahoo.com'};
-    var aquaman = {firstName: 'Arthur', lastName: 'Curry', email: 'sevenseas@altavista.com'};
     var greenLantern = {firstName: 'Hal', lastName: 'Jordan', email: 'highball@ferrisair.com'};
-    var flash = {firstName: 'Barry', lastName: 'Allen', email: 'ballen@ccpd.com'};
 
-    var allPeople = [batman, superman, aquaman, greenLantern, flash];
+    var allPeopleFound;
 
 
     var databaseAdapter = new DatabaseAdapter('localhost/testDb');
-    var sinonStub;
+    var sinonStub, filterPassedIn;
     setup(function (setupFinished) {
-        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (peopleGotten) {
-            peopleGotten(allPeople);
+        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (filter,peopleGotten) {
+            filterPassedIn = filter;
+            peopleGotten(allPeopleFound);
         });
         setupFinished();
     });
@@ -26,27 +24,29 @@ suite('PersonRetrieverTest', function () {
         sinonStub.restore();
         teardownFinished();
     });
+
     test('will retrieve a person by email', function (testDone) {
         var personRetriever = new PersonRetriever(databaseAdapter);
+
+        allPeopleFound = [batman];
         personRetriever.getPerson('iamthenight@gmail.com', function(personRetrieved){
             assert.equal(batman, personRetrieved);
+
+            assert.deepEqual( filterPassedIn,{email: { $regex :'iamthenight@gmail.com', $options:'i'}});
             testDone();
         })
 
     });
-    test('will retrieve a person by case insensitive email', function (testDone) {
-        var personRetriever = new PersonRetriever(databaseAdapter);
-        personRetriever.getPerson('LASTSON@YaHoO.com', function(personRetrieved){
-            assert.equal(superman, personRetrieved);
-            testDone();
-        })
 
-    });
 
     test('will retrieve somone else by email', function (testDone) {
         var personRetriever = new PersonRetriever(databaseAdapter);
-        personRetriever.getPerson('highball@ferrisair.com', function(personRetrieved){
+        allPeopleFound = [greenLantern];
+
+        personRetriever.getPerson('Highball@ferrisair.com', function(personRetrieved){
             assert.equal(greenLantern, personRetrieved);
+
+            assert.deepEqual( filterPassedIn,{email: { $regex :'Highball@ferrisair.com', $options:'i'}});
             testDone();
         })
 
@@ -54,7 +54,9 @@ suite('PersonRetrieverTest', function () {
 
     test('will return nothing when person cannot be found', function (testDone) {
         var personRetriever = new PersonRetriever(databaseAdapter);
+        allPeopleFound = [];
         personRetriever.getPerson('bornonamonday@swampytimes.com', function(personRetrieved){
+            assert.deepEqual( filterPassedIn,{email: { $regex :'bornonamonday@swampytimes.com', $options:'i'}});
             assert.equal(undefined, personRetrieved);
             testDone();
         })

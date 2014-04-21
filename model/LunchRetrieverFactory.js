@@ -3,10 +3,11 @@
  */
 var LunchRetriever = require('./LunchRetriever');
 var DatabaseAdapter = require('./DatabaseAdapter')
+var config = require('../config');
 function LunchRetrieverFactory() {
 }
 LunchRetrieverFactory.prototype = {
     buildLunchRetriever: function () {
-        return new LunchRetriever(new DatabaseAdapter('localhost:27017/LunchLunchDB'));
+        return new LunchRetriever(new DatabaseAdapter(config.mongoUrl));
     }};
 module.exports = LunchRetrieverFactory;

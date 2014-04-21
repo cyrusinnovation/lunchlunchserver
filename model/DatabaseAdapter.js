@@ -10,19 +10,20 @@ var DatabaseAdapter = function (databaseUrl) {
 }
 DatabaseAdapter.prototype = {
 
-    getPeople: function (peopleGotten) {
+    getPeople: function (filter, peopleGotten) {
         var peopleCollection = this.database.get('people');
-        peopleCollection.find({}, function (error, people) {
+        peopleCollection.find(filter, function (error, people) {
             peopleGotten(people);
         });
     },
 
-    getLunches: function (lunchesGotten) {
+    getLunches: function (filter, lunchesGotten) {
         var lunchCollection = this.database.get('lunch');
-        lunchCollection.find({}, function (error, lunches) {
+        lunchCollection.find(filter, function (error, lunches) {
             lunchesGotten(lunches);
         });
 
     }
 };
-        module.exports = DatabaseAdapter;
+
+module.exports = DatabaseAdapter;

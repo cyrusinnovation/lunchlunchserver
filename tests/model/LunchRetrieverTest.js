@@ -65,5 +65,17 @@ suite('LunchRetrieverTest', function () {
         })
     });
 
+    test('search is based on JSON equality without regards to order', function (testDone) {
+        var lunchRetriever = new LunchRetriever(databaseAdapter);
+        var person = {lastName: 'Trout', firstName: 'Kilgore',  email: 'ktrout@yahoo.com'};
+        lunchRetriever.getLunchesForPerson(person, function (lunchesReceived) {
+            assert.equal(lunchesReceived.length, 3);
+            assert.equal(lunchesReceived[0], lunch1);
+            assert.equal(lunchesReceived[1], lunch2);
+            assert.equal(lunchesReceived[2], lunch4);
+            testDone();
+        })
+    });
+
 })
 

@@ -6,6 +6,7 @@ exports.getLunches = function (lunchRetriever) {
 
         try {
             var person = JSON.parse(request.query.person);
+
             lunchRetriever.getLunchesForPerson(person, function (lunchesRetrieved) {
                 response.send(lunchesRetrieved);
 

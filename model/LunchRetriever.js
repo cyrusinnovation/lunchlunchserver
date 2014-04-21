@@ -13,7 +13,6 @@ LunchRetriever.prototype = {
                     lunchesForPerson.push(lunch)
                 }
             })
-
             lunchesReceived(lunchesForPerson);
         });
 
@@ -22,8 +21,7 @@ LunchRetriever.prototype = {
 }
 
 function jsonEquals(object1, object2) {
-    
-    return  JSON.stringify(object1) === JSON.stringify(object2)
+    return  object1["firstName"] == object2["firstName"] && object1["lastName"]== object2["lastName"] && object1["email"] == object2["email"];
 }
 
 module.exports = LunchRetriever;

@@ -38,6 +38,7 @@ suite('DatabaseAdapterTest', function () {
     test('can get people from the database adapter', function (testDone) {
        var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getPeople(function(peopleRetrieved){
+            console.log(peopleRetrieved);
             assert. deepEqual(peopleRetrieved, expectedPeople);
             testDone();
         })

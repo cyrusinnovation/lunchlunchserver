@@ -8,7 +8,7 @@ suite('LoginTest', function () {
     var personToFind;
     setup( function(setupDone){
         this.personRetriever = new PersonRetriever();
-        this.getLunchesStub = sinon.stub(this.personRetriever, 'getPerson', function (email, personRetrieved) {
+        this.saveLunchStub = sinon.stub(this.personRetriever, 'getPerson', function (email, personRetrieved) {
             emailUsed = email;
             personRetrieved(personToFind);
         });
@@ -19,7 +19,7 @@ suite('LoginTest', function () {
     teardown(function(teardownDone){
         personToFind = undefined;
         emailUsed = undefined;
-        this.getLunchesStub.restore();
+        this.saveLunchStub.restore();
         teardownDone();
     })
 

@@ -10,14 +10,10 @@
         "jade": "*",
         "mongodb": "*",
         "monk": "*"
-
     },
     "devDependencies": {
         "mocha": "*",
-        "sinon": "*",
-        "jasmine-node": "*",
-        "requirejs":"*",
-        "jasmine": "*"
+        "sinon": "*"
 
     }
 }

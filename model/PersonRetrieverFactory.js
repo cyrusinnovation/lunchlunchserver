@@ -1,10 +1,9 @@
 var PersonRetriever = require('./PersonRetriever');
-var DatabaseAdapter = require('./DatabaseAdapter')
-var config = require('../config');
+
 function PersonRetrieverFactory() {
 }
 PersonRetrieverFactory.prototype = {
-    buildPersonRetriever: function () {
-        return new PersonRetriever(new DatabaseAdapter(config.mongoUrl));
+    buildPersonRetriever: function (databaseAdapter) {
+        return new PersonRetriever(databaseAdapter);
     }};
 module.exports = PersonRetrieverFactory;

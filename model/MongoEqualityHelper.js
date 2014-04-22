@@ -4,20 +4,15 @@
 function MongoEqualityHelper() {
 }
 MongoEqualityHelper.prototype = {
-    buildSubObjectEqualityFilter : function (target, object){
-        var filter ={};
+    buildSubObjectEqualityFilter: function (target, object) {
+        var filter = {};
         var index = 0;
-
-        Object.keys(object).forEach(function(key){
-
-            filter[target +"." + key ] = object[key];
-
+        Object.keys(object).forEach(function (key) {
+            filter[target + "." + key ] = object[key];
             index++;
         });
-
-        return filter ;
-
-    }};
-
+        return filter;
+    }
+};
 
 module.exports = MongoEqualityHelper;

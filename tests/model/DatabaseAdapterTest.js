@@ -5,6 +5,7 @@ var DatabaseAdapter = require('../../model/DatabaseAdapter');
 var mongoUrl = 'localhost/testDb';
 var monk = require('monk');
 var database = monk(mongoUrl);
+var config = require('../../config');
 
 suite('DatabaseAdapterTest', function () {
 
@@ -21,7 +22,7 @@ suite('DatabaseAdapterTest', function () {
         {person1: rory, person2: mickey, dateTime: new Date(2014, 5, 23)},
         {person1: amy, person2: donna, dateTime: new Date(2015, 10, 1)},
         {person1: donna, person2: rory, dateTime: new Date(2019, 12, 7)},
-        {person1: amy, person2: rory, dateTime: new Date(2018, 11, 7)},
+        {person1: amy, person2: rory, dateTime: new Date(2018, 11, 7)}
     ];
 
     setup(function (setupFinished) {
@@ -80,7 +81,18 @@ suite('DatabaseAdapterTest', function () {
         })
     });
 
+    test('can save a lunch to the DB', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
 
+        var lunchToSave = {person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
+        databaseAdapter.saveLunch(lunchToSave, function () {
+            databaseAdapter.getLunches({person1:donna, person2:rose}, function (lunchesRetrieved) {
+                assert.equal( lunchesRetrieved.length,1);
+                assert.deepEqual( lunchesRetrieved[0],lunchToSave);
+                testDone();
+            });
+        });
+    });
     test('can search lunches from the database adapter', function (testDone) {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getLunches({person1:rory},function(lunchesRetrieved){
@@ -111,7 +123,6 @@ suite('DatabaseAdapterTest', function () {
             assert.deepEqual( lunchesRetrieved[0],expectedLunches[0]);
             assert.deepEqual( lunchesRetrieved[1],expectedLunches[2]);
             assert.deepEqual( lunchesRetrieved[2],expectedLunches[4]);
-
             testDone();
         })
     });

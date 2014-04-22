@@ -9,10 +9,11 @@ var LunchRetriever = require('../../model/LunchRetriever');
 suite('LunchRetrieverFactoryTest', function (){
     test("will build a LunchRetriever", function(testDone){
         var personRetrieverFactory = new LunchRetrieverFactory();
-        var retrieverBuilt = personRetrieverFactory.buildLunchRetriever();
+        var databaseAdapter = new DatabaseAdapter("http://localhost/testDB");
+        var retrieverBuilt = personRetrieverFactory.buildLunchRetriever(databaseAdapter);
+
         assert(retrieverBuilt instanceof LunchRetriever);
-        assert(retrieverBuilt.databaseAdapter instanceof  DatabaseAdapter);
-        assert.equal('localhost:27017/LunchLunchDB', retrieverBuilt.databaseAdapter.databaseUrl);
+        assert.equal(retrieverBuilt.databaseAdapter, databaseAdapter);
         testDone();
     })
 })

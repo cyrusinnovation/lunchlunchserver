@@ -7,7 +7,7 @@ var config = require('../config');
 function LunchRetrieverFactory() {
 }
 LunchRetrieverFactory.prototype = {
-    buildLunchRetriever: function () {
-        return new LunchRetriever(new DatabaseAdapter(config.mongoUrl));
+    buildLunchRetriever: function (databaseAdapter) {
+        return new LunchRetriever(databaseAdapter);
     }};
 module.exports = LunchRetrieverFactory;

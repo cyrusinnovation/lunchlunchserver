@@ -9,7 +9,9 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var login = require('./routes/login');
-var lunches = require('./routes/lunches');
+var getlunches = require('./routes/getlunches');
+var createlunch = require('./routes/createlunch');
+var config = require('./config.json');
 var buddy = require('./routes/buddy');
 var PersonRetrieverFactory = require('./model/PersonRetrieverFactory');
 var personRetrieverFactory = new PersonRetrieverFactory();
@@ -18,6 +20,8 @@ var lunchRetrieverFactory = new LunchRetrieverFactory();
 var LunchBuddyFinderFactory = require('./model/LunchBuddyFinderFactory');
 var lunchBuddyFinderFactory = new LunchBuddyFinderFactory();
 var app = express();
+var DatabaseAdapter = require('./model/DatabaseAdapter');
+var databaseAdapter = new DatabaseAdapter(config.mongoUrl)
 
 // all environments
 
@@ -41,9 +45,10 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/login', login.login(personRetrieverFactory.buildPersonRetriever()));
-app.get('/getLunches', lunches.getLunches(lunchRetrieverFactory.buildLunchRetriever()));
-app.get('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder()));
+app.get('/login', login.login(personRetrieverFactory.buildPersonRetriever(databaseAdapter)));
+app.get('/getLunches', getlunches.getLunches(lunchRetrieverFactory.buildLunchRetriever(databaseAdapter)));
+app.get('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder(databaseAdapter)));
+app.post('/createLunch', createlunch.createLunch(databaseAdapter));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

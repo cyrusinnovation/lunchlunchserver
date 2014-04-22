@@ -8,10 +8,10 @@ suite('LunchBuddyFinderFactoryTest', function () {
 
     test("will build a LunchBuddyFinder", function(testDone){
         var factory = new LunchBuddyFinderFactory();
-        var finderBuilt = factory.buildLunchBuddyFinder();
+        var databaseAdapter = new DatabaseAdapter("http://localhost/testDB");
+        var finderBuilt = factory.buildLunchBuddyFinder(databaseAdapter);
         assert(finderBuilt instanceof LunchBuddyFinder);
-        assert(finderBuilt.databaseAdapter instanceof  DatabaseAdapter);
-        assert.equal('localhost:27017/LunchLunchDB', finderBuilt.databaseAdapter.databaseUrl);
+        assert.equal(finderBuilt.databaseAdapter,databaseAdapter);
         testDone();
     })
 })

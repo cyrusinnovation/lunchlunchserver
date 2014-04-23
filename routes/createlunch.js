@@ -4,20 +4,8 @@
 exports.createLunch = function(databaseAdapter){
     var requestHandler = function (request, response) {
 
-//        try {
-//            var person = JSON.parse(request.query.person);
-//
-//            lunchRetriever.getLunchesForPerson(person, function (lunchesRetrieved) {
-//                response.send(lunchesRetrieved);
-//
-//            });
-//        } catch (parseException) {
-//            response.send();
-//        }
-
-        var lunch = JSON.parse(request.body.lunch)
-        databaseAdapter.saveLunch(lunch, function(){
-            response.send(lunch);
+        databaseAdapter.saveLunch(request.body.lunch, function(){
+            response.send(request.body.lunch);
         });
 
     };

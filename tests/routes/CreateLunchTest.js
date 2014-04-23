@@ -20,8 +20,8 @@ suite('CreateLunchTest', function () {
     })
 
     test('will save lunch from the request using the database adapter', function (testDone) {
-        var bill = {firstName: 'Bill', lastName: 'Preston', email: 'bpreseqsuire@sdhs.edu'};
-        var ted = {firstName: 'Theodore', lastName: 'Logan', email: 'tlogan@sdhs.edu'};
+        var bill = {firstName: 'Bill', lastName: 'Preston', email: 'bpreseqsuire@sdhs.edu', _id:'535568d569b55ca065000002'};
+        var ted = {firstName: 'Theodore', lastName: 'Logan', email: 'tlogan@sdhs.edu',_id:'535568d569b55ca065000222'};
 
         var expectedLunch = {person1: bill, person2: ted, dateTime: '2018-01-04T05:00:00.000Z'};
 
@@ -29,7 +29,8 @@ suite('CreateLunchTest', function () {
             assert.deepEqual(expectedLunch, databaseAdapter.lunchToSave);
         });
 
-        var request = {body: {lunch: JSON.stringify(expectedLunch)}};
+        var request = {body: {lunch:expectedLunch}};
+
 
         var sendWasCalled = false;
         var lunchSent = null;

@@ -5,11 +5,11 @@ var LunchRetriever = require('../../model/LunchRetriever');
 suite('LunchRetrieverTest', function () {
 
 
-    var billy = {firstName: 'Billy', lastName: 'Pilgrim', email: 'bp@unstuck.net'};
-    var kilgore = {firstName: 'Kilgore', lastName: 'Trout', email: 'ktrout@yahoo.com'};
-    var fred = {firstName: 'Fred', lastName: 'Rosewater', email: 'frosie@yahoo.com'};
-    var malachi = {firstName: 'Malachi', lastName: 'Constant', email: 'mconst@google.com'};
-    var winston = {firstName: 'Winston Niles', lastName: 'Rumfoord', email: 'wrum@outlook.com'};
+    var billy = {firstName: 'Billy', lastName: 'Pilgrim', email: 'bp@unstuck.net', _id:'12345678966'};
+    var kilgore = {firstName: 'Kilgore', lastName: 'Trout', email: 'ktrout@yahoo.com', _id:'123456789012'};
+    var fred = {firstName: 'Fred', lastName: 'Rosewater', email: 'frosie@yahoo.com', _id:'123456789i8'};
+    var malachi = {firstName: 'Malachi', lastName: 'Constant', email: 'mconst@google.com', _id:'1234567890fs'};
+    var winston = {firstName: 'Winston Niles', lastName: 'Rumfoord', email: 'wrum@outlook.com', _id:'1253d6789012'};
 
 
     var lunch1 = {person1: billy, person2: kilgore, dateTime: new Date(2017, 10, 7)};
@@ -23,9 +23,11 @@ suite('LunchRetrieverTest', function () {
     var databaseAdapter = new DatabaseAdapter('localhost/testDb');
     var sinonStub;
     var filterPassedIn;
+    var optionsPassedIn;
     setup(function (setupFinished) {
-         sinonStub = sinon.stub(databaseAdapter, 'getLunches', function (filter, lunchesGotten) {
+         sinonStub = sinon.stub(databaseAdapter, 'getLunches', function (filter,options, lunchesGotten) {
              filterPassedIn = filter;
+             optionsPassedIn = options;
             lunchesGotten(allLunches);
         });
         setupFinished();
@@ -35,53 +37,27 @@ suite('LunchRetrieverTest', function () {
         sinonStub.restore();
         teardownFinished();
     });
+
     test('will get all lunches for a person', function (testDone) {
         var lunchRetriever = new LunchRetriever(databaseAdapter);
+        var expectedFilter = {$or: [
+            {"person1._id": new ObjectID(kilgore._id)},
+            {"person2._id": new ObjectID(kilgore._id)}
+        ]};
+        var expectedOptions = {sort:{dateTime:1}};
         lunchRetriever.getLunchesForPerson(kilgore, function (lunchesReceived) {
 
 
-            assert.equal(lunchesReceived.length, 3);
-            assert.equal(lunchesReceived[0], lunch1);
-            assert.equal(lunchesReceived[1], lunch2);
-            assert.equal(lunchesReceived[2], lunch4);
-            assert.deepEqual(filterPassedIn,{});
+            assert.equal(allLunches,lunchesReceived);
+
+            assert.deepEqual(filterPassedIn, expectedFilter);
+            assert.deepEqual(optionsPassedIn, expectedOptions);
             testDone();
         })
 
     });
 
 
-    test('will get all lunches for Billy', function (testDone) {
-        var lunchRetriever = new LunchRetriever(databaseAdapter);
-        lunchRetriever.getLunchesForPerson(billy, function (lunchesReceived) {
-            assert.equal(lunchesReceived.length, 3);
-            assert.equal(lunchesReceived[0], lunch1);
-            assert.equal(lunchesReceived[1], lunch3);
-            assert.equal(lunchesReceived[2], lunch5);
-            testDone();
-        })
-    });
-    test('search is based on JSON equality', function (testDone) {
-        var lunchRetriever = new LunchRetriever(databaseAdapter);
-        var person = {firstName: 'Malachi', lastName: 'Constant', email: 'mconst@google.com'};
-        lunchRetriever.getLunchesForPerson(person, function (lunchesReceived) {
-            assert.equal(lunchesReceived.length, 1);
-            assert.equal(lunchesReceived[0], lunch4);
-            testDone();
-        })
-    });
-
-    test('search is based on JSON equality without regards to order', function (testDone) {
-        var lunchRetriever = new LunchRetriever(databaseAdapter);
-        var person = {lastName: 'Trout', firstName: 'Kilgore',  email: 'ktrout@yahoo.com'};
-        lunchRetriever.getLunchesForPerson(person, function (lunchesReceived) {
-            assert.equal(lunchesReceived.length, 3);
-            assert.equal(lunchesReceived[0], lunch1);
-            assert.equal(lunchesReceived[1], lunch2);
-            assert.equal(lunchesReceived[2], lunch4);
-            testDone();
-        })
-    });
 
 })
 

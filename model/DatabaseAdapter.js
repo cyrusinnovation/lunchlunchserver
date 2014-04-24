@@ -9,14 +9,14 @@ var DatabaseAdapter = function (databaseUrl) {
     this.lunchCollection = this.database.get('lunch');
 }
 DatabaseAdapter.prototype = {
-    getPeople: function (filter, peopleGotten) {
-        this.peopleCollection.find(filter, function (error, people) {
+    getPeople: function (filter,options, peopleGotten) {
+        this.peopleCollection.find(filter, options, function (error, people) {
             peopleGotten(people);
         });
     },
 
-    getLunches: function (filter, lunchesGotten) {
-        this.lunchCollection.find(filter, function (error, lunches) {
+    getLunches: function (filter,options, lunchesGotten) {
+        this.lunchCollection.find(filter,options,function (error, lunches) {
             lunchesGotten(lunches);
         });
     },

@@ -11,10 +11,11 @@ suite('PersonRetrieverTest', function () {
 
 
     var databaseAdapter = new DatabaseAdapter('localhost/testDb');
-    var sinonStub, filterPassedIn;
+    var sinonStub, filterPassedIn,optionsPassedIn;
     setup(function (setupFinished) {
-        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (filter,peopleGotten) {
+        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (filter,options,peopleGotten) {
             filterPassedIn = filter;
+            optionsPassedIn = options;
             peopleGotten(allPeopleFound);
         });
         setupFinished();
@@ -31,7 +32,7 @@ suite('PersonRetrieverTest', function () {
         allPeopleFound = [batman];
         personRetriever.getPerson('iamthenight@gmail.com', function(personRetrieved){
             assert.equal(batman, personRetrieved);
-
+            assert.deepEqual({},optionsPassedIn);
             assert.deepEqual( filterPassedIn,{email: { $regex :'iamthenight@gmail.com', $options:'i'}});
             testDone();
         })
@@ -45,7 +46,7 @@ suite('PersonRetrieverTest', function () {
 
         personRetriever.getPerson('Highball@ferrisair.com', function(personRetrieved){
             assert.equal(greenLantern, personRetrieved);
-
+            assert.deepEqual({},optionsPassedIn);
             assert.deepEqual( filterPassedIn,{email: { $regex :'Highball@ferrisair.com', $options:'i'}});
             testDone();
         })
@@ -58,6 +59,7 @@ suite('PersonRetrieverTest', function () {
         personRetriever.getPerson('bornonamonday@swampytimes.com', function(personRetrieved){
             assert.deepEqual( filterPassedIn,{email: { $regex :'bornonamonday@swampytimes.com', $options:'i'}});
             assert.equal(undefined, personRetrieved);
+            assert.deepEqual({},optionsPassedIn);
             testDone();
         })
 

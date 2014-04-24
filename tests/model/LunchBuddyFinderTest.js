@@ -14,10 +14,11 @@ suite('LunchBuddyFinderTest', function () {
     var databaseAdapter = new DatabaseAdapter('localhost/testDb');
     var sinonStub;
     var allPeopleToFind = [];
-    var filterPassedIn;
+    var filterPassedIn, optionsPassedIn;
     setup(function (setupFinished) {
-        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (filter,peopleGotten) {
+        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (filter,options,peopleGotten) {
             filterPassedIn = filter;
+            optionsPassedIn = options;
             peopleGotten(allPeopleToFind);
         });
         setupFinished();
@@ -35,6 +36,7 @@ suite('LunchBuddyFinderTest', function () {
         finder.findALunchBuddy(sandor, function (buddyFound) {
             assert.deepEqual(filterPassedIn, {_id:{$ne:  new ObjectID(sandor._id)}});
             assert.equal(buddyFound, robert);
+            assert.deepEqual({},optionsPassedIn);
         });
 
     }));
@@ -48,6 +50,7 @@ suite('LunchBuddyFinderTest', function () {
         finder.findALunchBuddy(brienne, function (buddyFound) {
             assert.deepEqual(filterPassedIn, {_id:{$ne: new ObjectID(brienne._id)}});
             assert.equal(buddyFound, arya);
+            assert.deepEqual({},optionsPassedIn);
         });
 
     }));

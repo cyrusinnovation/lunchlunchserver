@@ -14,16 +14,18 @@ suite('PopulateDatabaseWithStubData', function () {
     var stubPeople = [ironman, thor, wasp, antman, hulk ];
 
     var stubLunches = [
-        {person1: ironman, person2: thor, dateTime: new Date(2017,  7,11)},
-        {person1: ironman, person2: wasp, dateTime: new Date(2013, 5, 7)},
-        {person1: ironman, person2: antman, dateTime: new Date(2027, 25,9)},
-        {person1: ironman, person2: hulk, dateTime: new Date(2014, 14, 2)},
-        {person1: thor, person2: wasp, dateTime: new Date(2092, 5, 12)},
-        {person1: thor, person2: antman, dateTime: new Date(2019, 22, 4)},
-        {person1: thor, person2: hulk, dateTime: new Date(2015, 3, 2)},
-        {person1: wasp, person2: antman, dateTime: new Date(2013, 12, 9)},
-        {person1: wasp, person2: hulk, dateTime: new Date(2017, 7, 10)}
+        {person1: ironman, person2: thor, dateTime: '2017-07-11T20:00:00.000Z'},
+        {person1: ironman, person2: wasp, dateTime: '2013-05-07T20:00:00.000Z'},
+        {person1: ironman, person2: antman, dateTime: '2027-09-25T20:00:00.000Z'},
+        {person1: ironman, person2: hulk, dateTime: '2014-02-14T20:00:00.000Z'},
+        {person1: thor, person2: wasp, dateTime: '2092-12-05T20:00:00.000Z'},
+        {person1: thor, person2: antman, dateTime: '2019-04-22T20:00:00.000Z'},
+        {person1: thor, person2: hulk, dateTime: '2015-02-03T20:00:00.000Z'},
+        {person1: wasp, person2: antman, dateTime: '2013-09-12T20:00:00.000Z'},
+        {person1: wasp, person2: hulk, dateTime: '2017-10-07T20:00:00.000Z'}
     ];
+
+
 
     test('Not really a test, just a means to populate the database', function (done) {
 

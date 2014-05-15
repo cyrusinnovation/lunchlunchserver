@@ -16,8 +16,9 @@ exports.createLunch = function(databaseAdapter){
     }
 
     var requestHandler = function (request, response) {
-        lunchToSave = convertPeopleIdsToJSON(request);
+        var lunchToSave = convertPeopleIdsToJSON(request);
         databaseAdapter.saveLunch(lunchToSave, function(){
+
             response.send(lunchToSave);
         });
 

@@ -9,7 +9,8 @@
         "express": "3.5.1",
         "jade": "*",
         "mongodb": "*",
-        "monk": "*"
+        "monk": "*",
+        "hashmap": "*"
     },
     "devDependencies": {
         "mocha": "*",

@@ -66,15 +66,7 @@ suite('DatabaseAdapterTest', function () {
         })
     });
 
-    test('can search people from the database adapter with complete object as the filter', function (testDone) {
-        var databaseAdapter = new DatabaseAdapter(mongoUrl);
-        databaseAdapter.getPeople(rose,{},function(peopleRetrieved){
-            assert. equal(1, peopleRetrieved.length);
-            assert.deepEqual(rose, peopleRetrieved[0]);
 
-            testDone();
-        })
-    });
 
     test('can search people with regex', function (testDone) {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);

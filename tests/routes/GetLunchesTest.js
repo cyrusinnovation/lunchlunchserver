@@ -8,8 +8,8 @@ suite('LunchesTest', function () {
     var personPassedIn = undefined;
     var lunchesToReturn = [];
     setup(function (setupDone) {
-        this.databaseAdapter = new LunchRetriever();
-        this.saveLunchStub = sinon.stub(this.databaseAdapter, 'getLunchesForPerson', function (person, lunchesRetrieved) {
+        this.lunchRetriever = new LunchRetriever();
+        this.saveLunchStub = sinon.stub(this.lunchRetriever, 'getLunchesForPerson', function (person, lunchesRetrieved) {
             personPassedIn = person;
             lunchesRetrieved(lunchesToReturn);
         });
@@ -19,7 +19,7 @@ suite('LunchesTest', function () {
 
     teardown(function (teardownDone) {
         personPassedIn = undefined;
-        lunchesToReturn = []
+        lunchesToReturn = [];
         this.saveLunchStub.restore();
         teardownDone();
     })
@@ -34,7 +34,7 @@ suite('LunchesTest', function () {
         var lunch2 = {person1: saul, person2: walter, dateTime: new Date(2014, 5, 23)};
         var lunch3 = {person1: jesse, person2: saul, dateTime: new Date(2015, 10, 1)};
 
-        var route = new lunchRoute.getLunches(this.databaseAdapter);
+        var route = new lunchRoute.getLunches(this.lunchRetriever);
         lunchesToReturn = [lunch1, lunch2, lunch3];
 
         var expectedPersonUsed = {firstName: "Dante", lastName: "Aligieri", email: "da@purgatory.net"};
@@ -56,7 +56,7 @@ suite('LunchesTest', function () {
 
 
     test('will return nothing if there is not person passed in', function (testDone) {
-        var route = new lunchRoute.getLunches(this.databaseAdapter);
+        var route = new lunchRoute.getLunches(this.lunchRetriever);
         var request = {query: ""};
         var sendWasCalled = false;
         var mockSend = function (viewData) {

@@ -1,5 +1,5 @@
 var assert = require('assert');
-var DatabaseAdapter = require('../../model/DatabaseAdapter');
+var LunchCandidateFinder = require('../../model/LunchCandidateFinder');
 var LunchBuddyFinder = require('../../model/LunchBuddyFinder');
 
 var sinon = require('sinon');
@@ -10,16 +10,16 @@ var ned = {_id:"sdjgmbo1293m",firstName: 'Eddard', lastName: 'Stark', email: 'lo
 var arya = {_id:"sdavcsdetfdc",firstName: 'Arya', lastName: 'Stark', email: 'valarmorgulis@winterfell.net'};
 var robert = {_id:"123cjvdsvdse",firstName: 'Robert', lastName: 'Baratheon', email: 'rking@kingslanding.com'};
 
+
 suite('LunchBuddyFinderTest', function () {
-    var databaseAdapter = new DatabaseAdapter('localhost/testDb');
+    var candidateFinder = new LunchCandidateFinder();
     var sinonStub;
     var allPeopleToFind = [];
-    var filterPassedIn, optionsPassedIn;
+    var personPassedIn;
     setup(function (setupFinished) {
-        sinonStub = sinon.stub(databaseAdapter, 'getPeople', function (filter,options,peopleGotten) {
-            filterPassedIn = filter;
-            optionsPassedIn = options;
-            peopleGotten(allPeopleToFind);
+        sinonStub = sinon.stub(candidateFinder, 'findAllLunchCandidates', function (person,candidatesFound) {
+            personPassedIn= person;
+            candidatesFound(allPeopleToFind);
         });
         setupFinished();
     });
@@ -28,29 +28,27 @@ suite('LunchBuddyFinderTest', function () {
         teardownFinished();
     });
     test('Will randomly retrieve another person to be your lunch buddy', sinon.test(function () {
-        var finder = new LunchBuddyFinder(databaseAdapter);
+        var finder = new LunchBuddyFinder(candidateFinder);
         this.stub(Math, 'random', function () {
             return 3 / 4;
         });
         allPeopleToFind = [brienne, ned, arya, robert];
         finder.findALunchBuddy(sandor, function (buddyFound) {
-            assert.deepEqual(filterPassedIn, {_id:{$ne:  new ObjectID(sandor._id)}});
+            assert.deepEqual(personPassedIn, sandor);
             assert.equal(buddyFound, robert);
-            assert.deepEqual({},optionsPassedIn);
         });
 
     }));
 
     test('Will randomly retrieve another person to be your lunch buddy: case 2', sinon.test(function () {
-        var finder = new LunchBuddyFinder(databaseAdapter);
+        var finder = new LunchBuddyFinder(candidateFinder);
         this.stub(Math, 'random', function () {
             return 1 / 4;
         });
         allPeopleToFind = [ned, arya, robert, sandor];
         finder.findALunchBuddy(brienne, function (buddyFound) {
-            assert.deepEqual(filterPassedIn, {_id:{$ne: new ObjectID(brienne._id)}});
+            assert.deepEqual(personPassedIn, brienne);
             assert.equal(buddyFound, arya);
-            assert.deepEqual({},optionsPassedIn);
         });
 
     }));

@@ -78,13 +78,6 @@ suite('DatabaseAdapterTest', function () {
         })
     });
 
-    test('can search people with regex case 2', function (testDone) {
-        var databaseAdapter = new DatabaseAdapter(mongoUrl);
-        databaseAdapter.getPeople({email:{ $regex :'/^girlwh$/', $options:'i'}},{},function(peopleRetrieved){
-            assert. equal(0, peopleRetrieved.length);
-            testDone();
-        })
-    });
     test('can get all lunches from the database adapter', function (testDone) {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getLunches({},{},function(lunchesRetrieved){

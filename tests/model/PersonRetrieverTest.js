@@ -33,7 +33,7 @@ suite('PersonRetrieverTest', function () {
         personRetriever.getPerson('iamthenight@gmail.com', function(personRetrieved){
             assert.equal(batman, personRetrieved);
             assert.deepEqual({},optionsPassedIn);
-            assert.deepEqual( filterPassedIn,{email: { $regex :'iamthenight@gmail.com', $options:'i'}});
+            assert.deepEqual( filterPassedIn,{email: { $regex :'/^iamthenight@gmail.com$/', $options:'i'}});
             testDone();
         })
 
@@ -47,7 +47,7 @@ suite('PersonRetrieverTest', function () {
         personRetriever.getPerson('Highball@ferrisair.com', function(personRetrieved){
             assert.equal(greenLantern, personRetrieved);
             assert.deepEqual({},optionsPassedIn);
-            assert.deepEqual( filterPassedIn,{email: { $regex :'Highball@ferrisair.com', $options:'i'}});
+            assert.deepEqual( filterPassedIn,{email: { $regex :'/^Highball@ferrisair.com$/', $options:'i'}});
             testDone();
         })
 
@@ -57,7 +57,7 @@ suite('PersonRetrieverTest', function () {
         var personRetriever = new PersonRetriever(databaseAdapter);
         allPeopleFound = [];
         personRetriever.getPerson('bornonamonday@swampytimes.com', function(personRetrieved){
-            assert.deepEqual( filterPassedIn,{email: { $regex :'bornonamonday@swampytimes.com', $options:'i'}});
+            assert.deepEqual( filterPassedIn,{email: { $regex :'/^bornonamonday@swampytimes.com$/', $options:'i'}});
             assert.equal(undefined, personRetrieved);
             assert.deepEqual({},optionsPassedIn);
             testDone();

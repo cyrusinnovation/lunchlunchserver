@@ -19,17 +19,16 @@ LunchCandidateFinder.prototype = {
                 candidatesFound(found);
             })
 
-
             function findBuddiesWithLeastLunches(buddyToLunchCount) {
-                var found  =[];
+                var found = [];
                 var minimumNumberOfLunches = Number.MAX_VALUE;
-                buddyToLunchCount.keys().forEach(function(person){
+                buddyToLunchCount.keys().forEach(function (person) {
                     var lunchesForPerson = buddyToLunchCount.get(person);
-                    if(lunchesForPerson < minimumNumberOfLunches){
+                    if (lunchesForPerson < minimumNumberOfLunches) {
                         found = [person];
                         minimumNumberOfLunches = lunchesForPerson;
                     }
-                    else if(lunchesForPerson == minimumNumberOfLunches){
+                    else if (lunchesForPerson == minimumNumberOfLunches) {
                         found.push(person);
                     }
                 });

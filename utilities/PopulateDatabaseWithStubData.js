@@ -13,19 +13,23 @@ suite('PopulateDatabaseWithStubData', function () {
     var hulk = {firstName: 'Bruce', lastName: 'Banner', email: 'bban@outlook.com'};
     var stubPeople = [ironman, thor, wasp, antman, hulk ];
 
+    var location1 =  {name:'Dos Toros', address:'11 Carmine St', z
+        ode:'10014'};
+    var location3 =  {name:'Dive Bar', address:'732 Amsterdam Ave', zipCode:'10025'};
+    var location4 =  {name: 'Gordon Ramsay at The London NYC', address:'151 W 54th St', zipCode:'10019'};
+    var location5 =  {name:'Grays Papaya', address:'2090 Broadway', zipCode:'10023'};
+
     var stubLunches = [
-        {person1: ironman, person2: thor, dateTime: '2017-07-11T20:00:00.000Z'},
-        {person1: ironman, person2: wasp, dateTime: '2013-05-07T20:00:00.000Z'},
-        {person1: ironman, person2: antman, dateTime: '2027-09-25T20:00:00.000Z'},
-        {person1: ironman, person2: hulk, dateTime: '2014-02-14T20:00:00.000Z'},
-        {person1: thor, person2: wasp, dateTime: '2092-12-05T20:00:00.000Z'},
-        {person1: thor, person2: antman, dateTime: '2019-04-22T20:00:00.000Z'},
-        {person1: thor, person2: hulk, dateTime: '2015-02-03T20:00:00.000Z'},
-        {person1: wasp, person2: antman, dateTime: '2013-09-12T20:00:00.000Z'},
-        {person1: wasp, person2: hulk, dateTime: '2017-10-07T20:00:00.000Z'}
+        {person1: ironman, person2: thor, dateTime: '2017-07-11T20:00:00.000Z', location: location1},
+        {person1: ironman, person2: wasp, dateTime: '2013-05-07T20:00:00.000Z', location: location2},
+        {person1: ironman, person2: antman, dateTime: '2027-09-25T20:00:00.000Z', location: location3},
+        {person1: ironman, person2: hulk, dateTime: '2014-02-14T20:00:00.000Z', location: location4},
+        {person1: thor, person2: wasp, dateTime: '2092-12-05T20:00:00.000Z', location: location5},
+        {person1: thor, person2: antman, dateTime: '2019-04-22T20:00:00.000Z', location: location4},
+        {person1: thor, person2: hulk, dateTime: '2015-02-03T20:00:00.000Z', location: location3},
+        {person1: wasp, person2: antman, dateTime: '2013-09-12T20:00:00.000Z', location: location2},
+        {person1: wasp, person2: hulk, dateTime: '2017-10-07T20:00:00.000Z', location: location1}
     ];
-
-
 
     test('Not really a test, just a means to populate the database', function (done) {
 

@@ -3,7 +3,6 @@
  */
 var LunchRetriever = require('./LunchRetriever');
 var DatabaseAdapter = require('./DatabaseAdapter')
-var config = require('../config');
 function LunchRetrieverFactory() {
 }
 LunchRetrieverFactory.prototype = {

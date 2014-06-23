@@ -10,6 +10,7 @@ var http = require('http');
 var path = require('path');
 var login = require('./routes/login');
 var getlunches = require('./routes/getlunches');
+var locations = require('./routes/locations');
 var createlunch = require('./routes/createlunch');
 var config = require('./config.json');
 var buddy = require('./routes/buddy');
@@ -19,6 +20,8 @@ var LunchRetrieverFactory = require('./model/LunchRetrieverFactory');
 var lunchRetrieverFactory = new LunchRetrieverFactory();
 var LunchBuddyFinderFactory = require('./model/LunchBuddyFinderFactory');
 var lunchBuddyFinderFactory = new LunchBuddyFinderFactory();
+var LocationRetrieverFactory = require('./model/LocationRetrieverFactory');
+var locationRetrieverFactory = new LocationRetrieverFactory();
 var app = express();
 var DatabaseAdapter = require('./model/DatabaseAdapter');
 var databaseAdapter = new DatabaseAdapter(config.mongoUrl)
@@ -47,6 +50,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/login', login.login(personRetrieverFactory.buildPersonRetriever(databaseAdapter)));
 app.get('/getLunches', getlunches.getLunches(lunchRetrieverFactory.buildLunchRetriever(databaseAdapter)));
+app.get('/locations', locations.locations(locationRetrieverFactory.buildLocationRetriever(databaseAdapter)));
 app.get('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder(databaseAdapter)));
 app.post('/createLunch', createlunch.createLunch(databaseAdapter));
 http.createServer(app).listen(app.get('port'), function(){

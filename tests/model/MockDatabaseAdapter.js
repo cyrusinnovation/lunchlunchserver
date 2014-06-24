@@ -29,6 +29,12 @@ MockDatabaseAdapter.prototype = {
     saveLunch: function (lunch, callback) {
         this.lunchToSave = lunch;
         callback();
+    },
+    setLunchLocation: function(lunch, location, callback) {
+        this.lunchToUpdate = lunch;
+        this.locationForUpdate = location;
+        callback();
+
     }
 
 };

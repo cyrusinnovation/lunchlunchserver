@@ -17,7 +17,7 @@ suite('CreateLunchTest', function () {
         lunchSaved = undefined;
         teardownDone();
     })
-    test('will save lunch from the request using the database adapter and convert its peron id strings to an actual object ids', function (testDone) {
+    test('will save lunch from the request using the database adapter and convert its person id strings to an actual object ids', function (testDone) {
         var billAsSent = {firstName: 'Bill', lastName: 'Preston', email: 'bpreseqsuire@sdhs.edu', _id: '535568d569b55ca065000002'};
         var tedAsSent = {firstName: 'Theodore', lastName: 'Logan', email: 'tlogan@sdhs.edu', _id: '535568d569b55ca065000222'};
 

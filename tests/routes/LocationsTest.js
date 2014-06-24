@@ -4,7 +4,7 @@ var MockResponse = require('./MockResponse')
 var locationsRoute = require('../../routes/locations');
 var LocationRetriever = require('../../model/LocationRetriever');
 suite('LocationsTest', function () {
-
+    
     var locationsToReturn = [];
     setup(function (setupDone) {
         this.locationsRetriever = new LocationRetriever();

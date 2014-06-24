@@ -195,6 +195,27 @@ suite('DatabaseAdapterTest', function () {
             testDone();
         })
     });
+    test('can set location on Lunch', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+
+        var location = {name: 'Grey Dog', address: '242 W 16th St', zipCode: '10011'};
+
+        var lunchId = '123412341213';
+        var lunchWithoutLocation = {_id: lunchId  ,person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
+        database.get('lunch').insert(lunchWithoutLocation);
+
+        var callBackOccured = false;
+        databaseAdapter.setLunchLocation(lunchWithoutLocation, location, function () {
+            databaseAdapter.getLunches({person1: donna, person2: rose}, {}, function (lunchesRetrieved) {
+                callBackOccured = true;
+                assert.equal(lunchesRetrieved.length, 1);
+                assert.equal(lunchesRetrieved[0]._id.id, lunchId);
+                assert.deepEqual(lunchesRetrieved[0].location, location);
+                testDone();
+            });
+        });
+
+    });
 
 
 })

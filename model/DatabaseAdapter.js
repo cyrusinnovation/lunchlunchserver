@@ -30,6 +30,10 @@ DatabaseAdapter.prototype = {
 
     saveLunch: function (lunch, callback) {
         this.lunchCollection.insert(lunch, callback);
+    },
+
+    setLunchLocation: function(lunch, location, callback){
+        this.lunchCollection.update({_id:lunch._id},({$set:{location:location}}), callback);
     }
 };
 

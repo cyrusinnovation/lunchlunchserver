@@ -33,7 +33,8 @@ DatabaseAdapter.prototype = {
     },
 
     setLunchLocation: function(lunch, location, callback){
-        this.lunchCollection.update({_id:lunch._id},({$set:{location:location}}), callback);
+        console.log(lunch._id)
+        this.lunchCollection.update({'_id':lunch._id},{$set:{'location': location}}, callback);
     }
 };
 

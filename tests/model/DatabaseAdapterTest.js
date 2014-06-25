@@ -204,10 +204,8 @@ suite('DatabaseAdapterTest', function () {
         var lunchWithoutLocation = {_id: lunchId  ,person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
         database.get('lunch').insert(lunchWithoutLocation);
 
-        var callBackOccured = false;
         databaseAdapter.setLunchLocation(lunchWithoutLocation, location, function () {
             databaseAdapter.getLunches({person1: donna, person2: rose}, {}, function (lunchesRetrieved) {
-                callBackOccured = true;
                 assert.equal(lunchesRetrieved.length, 1);
                 assert.equal(lunchesRetrieved[0]._id.id, lunchId);
                 assert.deepEqual(lunchesRetrieved[0].location, location);

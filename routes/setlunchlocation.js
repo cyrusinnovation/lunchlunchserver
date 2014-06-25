@@ -11,7 +11,7 @@ exports.updateLunch = function(databaseAdapter) {
     var requestHandler = function (request, response) {
         var lunchToUpdate = request.body.lunch;
         var location = createLocationWithObjectId(request.body.location);
-        databaseAdapter.setLunchLocation(lunchToUpdate, location, function(){
+        databaseAdapter.setLunchLocation({_id: new ObjectID(lunchToUpdate._id)}, location, function(err, object){
 
             response.send(lunchToUpdate);
         });

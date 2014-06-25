@@ -12,6 +12,7 @@ var login = require('./routes/login');
 var getlunches = require('./routes/getlunches');
 var locations = require('./routes/locations');
 var createlunch = require('./routes/createlunch');
+var createlocation = require('./routes/createlocation');
 var setlunchlocation = require('./routes/setlunchlocation');
 var config = require('./config.json');
 var buddy = require('./routes/buddy');
@@ -54,6 +55,7 @@ app.get('/getLunches', getlunches.getLunches(lunchRetrieverFactory.buildLunchRet
 app.get('/locations', locations.locations(locationRetrieverFactory.buildLocationRetriever(databaseAdapter)));
 app.get('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder(databaseAdapter)));
 app.post('/createLunch', createlunch.createLunch(databaseAdapter));
+app.post('/createLocation', createlocation.createLocation(databaseAdapter));
 app.put('/setlunchlocation', setlunchlocation.updateLunch(databaseAdapter));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

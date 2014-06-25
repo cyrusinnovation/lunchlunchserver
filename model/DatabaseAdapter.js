@@ -28,12 +28,15 @@ DatabaseAdapter.prototype = {
         });
     },
 
+    saveLocation:function(location, locationSaved){
+        this.locationCollection.insert(location, locationSaved);
+
+    },
     saveLunch: function (lunch, callback) {
         this.lunchCollection.insert(lunch, callback);
     },
 
     setLunchLocation: function(lunch, location, callback){
-        console.log(lunch._id)
         this.lunchCollection.update({'_id':lunch._id},{$set:{'location': location}}, callback);
     }
 };

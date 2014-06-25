@@ -214,6 +214,19 @@ suite('DatabaseAdapterTest', function () {
         });
 
     });
+    test('can save a location to the DB', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+
+        const locationToSave = {name: 'Dead Poet', address: ' 450 Amsterdam Ave #1', zipCode: '10024'};
+        databaseAdapter.saveLocation(locationToSave, function (error, locationSaved) {
+            databaseAdapter.getLocations({name:'Dead Poet'}, {}, function (locationsRetrieved) {
+                assert.equal(locationsRetrieved.length, 1);
+                assert.deepEqual(locationsRetrieved[0], locationSaved);
+                assert.deepEqual(locationToSave, locationSaved);
+                testDone();
+            });
+        });
+    });
 
 
 })

@@ -5,7 +5,7 @@ var MockDatabaseAdapter = function () {
 
 }
 var peopleToReturn,
-    lunchesToReturn;
+    lunchesToReturn, locationToReturn;
 MockDatabaseAdapter.prototype = {
 
     getPeople: function (filter, peopleGotten) {
@@ -35,6 +35,11 @@ MockDatabaseAdapter.prototype = {
         this.locationForUpdate = location;
         callback();
 
+    },
+
+    saveLocation: function(location, callback){
+        this.locationToSave = location;
+        callback(null, this.locationToReturn)
     }
 
 };

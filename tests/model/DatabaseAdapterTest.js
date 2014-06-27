@@ -47,7 +47,7 @@ suite('DatabaseAdapterTest', function () {
 
     });
 
-    teardown(function(teardownComplete){
+    teardown(function (teardownComplete) {
         var people = database.get('people');
         people.drop();
         var lunches = database.get('lunch');
@@ -55,7 +55,6 @@ suite('DatabaseAdapterTest', function () {
         var locations = database.get('location');
         locations.drop(teardownComplete);
     });
-
 
 
     test('can get all people from the database adapter', function (testDone) {
@@ -87,7 +86,8 @@ suite('DatabaseAdapterTest', function () {
         });
     });
 
-   test('can get all locations from the database adapter', function (testDone) {
+
+    test('can get all locations from the database adapter', function (testDone) {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getLocations({}, {}, function (locationsRetrieved) {
             assert.deepEqual(locationsRetrieved, expectedLocations);
@@ -201,7 +201,7 @@ suite('DatabaseAdapterTest', function () {
         var location = {name: 'Grey Dog', address: '242 W 16th St', zipCode: '10011'};
 
         var lunchId = '123412341213';
-        var lunchWithoutLocation = {_id: lunchId  ,person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
+        var lunchWithoutLocation = {_id: lunchId, person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
         database.get('lunch').insert(lunchWithoutLocation);
 
         databaseAdapter.setLunchLocation(lunchWithoutLocation, location, function () {
@@ -219,7 +219,7 @@ suite('DatabaseAdapterTest', function () {
 
         const locationToSave = {name: 'Dead Poet', address: ' 450 Amsterdam Ave #1', zipCode: '10024'};
         databaseAdapter.saveLocation(locationToSave, function (error, locationSaved) {
-            databaseAdapter.getLocations({name:'Dead Poet'}, {}, function (locationsRetrieved) {
+            databaseAdapter.getLocations({name: 'Dead Poet'}, {}, function (locationsRetrieved) {
                 assert.equal(locationsRetrieved.length, 1);
                 assert.deepEqual(locationsRetrieved[0], locationSaved);
                 assert.deepEqual(locationToSave, locationSaved);

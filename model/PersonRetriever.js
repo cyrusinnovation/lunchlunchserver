@@ -7,7 +7,7 @@ var PersonRetriever = function (adapter) {
 }
 PersonRetriever.prototype = {
     getPerson: function (email, personRetrieved) {
-      var filter =  {email:email};
+      var filter =  {email:{ $regex : new RegExp('^'+email+'$'), $options:'i'}};
         this.databaseAdapter.getPeople(filter,{},function (allPeople) {
           if(allPeople.length > 0){
                 personRetrieved(allPeople[0]);

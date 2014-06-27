@@ -28,7 +28,7 @@ suite('LoginTest', function () {
         personToFind = {firstName: 'Joe', lastName: 'Bapho', email: 'emailmcgee'};
 
         var expectedEmail = 'emailmclure';
-        var request = {query: {email: expectedEmail}};
+        var request = {body: {email: expectedEmail}};
 
         var sendWasCalled = false;;
         var mockSend = function (viewData) {
@@ -51,7 +51,7 @@ suite('LoginTest', function () {
         var route = new loginRoute.login(this.personRetriever);
 
         var expectedEmail = 'emailmcgee';
-        var request = { query: {email: expectedEmail}};
+        var request = { body: {email: expectedEmail}};
         var sendWasCalled= false;;
         var send = function (viewData) {
             sendWasCalled = true;
@@ -71,7 +71,7 @@ suite('LoginTest', function () {
     test('will return nothing there is no email', function (testDone) {
         var route = new loginRoute.login(this.personRetriever);
 
-        var request = { query: {speemail: ""}};
+        var request = { body: {speemail: ""}};
         var sendWasCalled= false;;
         var send = function (viewData) {
             sendWasCalled = true;

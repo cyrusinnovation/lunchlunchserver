@@ -49,9 +49,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.post('/login', login.login(personRetrieverFactory.buildPersonRetriever(databaseAdapter)));
-app.get('/getLunches', getlunches.getLunches(lunchRetrieverFactory.buildLunchRetriever(databaseAdapter)));
+app.post('/getLunches', getlunches.getLunches(lunchRetrieverFactory.buildLunchRetriever(databaseAdapter)));
 app.get('/locations', locations.locations(locationRetrieverFactory.buildLocationRetriever(databaseAdapter)));
-app.get('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder(databaseAdapter)));
+app.post('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder(databaseAdapter)));
 app.post('/createLunch', createlunch.createLunch(databaseAdapter));
 app.post('/createLocation', createlocation.createLocation(databaseAdapter));
 app.put('/setlunchlocation', setlunchlocation.updateLunch(databaseAdapter));

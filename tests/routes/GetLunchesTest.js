@@ -38,7 +38,7 @@ suite('LunchesTest', function () {
         lunchesToReturn = [lunch1, lunch2, lunch3];
 
         var expectedPersonUsed = {firstName: "Dante", lastName: "Aligieri", email: "da@purgatory.net"};
-        var request = {query: {person: JSON.stringify(expectedPersonUsed)}};
+        var request = {body: {person: expectedPersonUsed}};
 
         var sendWasCalled = false;
         var mockSend = function (viewData) {
@@ -57,7 +57,7 @@ suite('LunchesTest', function () {
 
     test('will return nothing if there is not person passed in', function (testDone) {
         var route = new lunchRoute.getLunches(this.lunchRetriever);
-        var request = {query: ""};
+        var request = {body: ""};
         var sendWasCalled = false;
         var mockSend = function (viewData) {
             sendWasCalled = true;

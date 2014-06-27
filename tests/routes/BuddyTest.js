@@ -31,7 +31,7 @@ suite('BuddyTest', function () {
         buddyToFind = flash;
 
 
-        var request = {query: {person: JSON.stringify(aquaman)}};
+        var request = {body: {person: aquaman}};
 
         var sendWasCalled = false;
         var mockSend = function (viewData) {

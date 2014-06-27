@@ -3,10 +3,8 @@
  */
 exports.getLunches = function (lunchRetriever) {
     var requestHandler = function (request, response) {
-
         try {
-            var person = JSON.parse(request.query.person);
-
+            var person = request.body.person;
             lunchRetriever.getLunchesForPerson(person, function (lunchesRetrieved) {
                 response.send(lunchesRetrieved);
 

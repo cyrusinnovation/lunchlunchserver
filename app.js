@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -25,7 +24,9 @@ var LocationRetrieverFactory = require('./model/LocationRetrieverFactory');
 var locationRetrieverFactory = new LocationRetrieverFactory();
 var app = express();
 var DatabaseAdapter = require('./model/DatabaseAdapter');
-var databaseAdapter = new DatabaseAdapter(config.mongoUrl)
+var databaseAdapter = new DatabaseAdapter(config.mongoUrl);
+var APITokenHelper = require('./helper/ApiTokenHelper');
+var apiTokenHelper = new APITokenHelper();
 
 // all environments
 
@@ -44,8 +45,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
+
+app.all('*', function (req, res, next) {
+    if(apiTokenHelper.checkForApiToken(req, function(containsToken){
+        if(containsToken){
+            next();
+        }else{
+           return res.send({error:"no api token"});
+        }
+    }));
+
+});
+
 
 app.get('/', routes.index);
 app.post('/login', login.login(personRetrieverFactory.buildPersonRetriever(databaseAdapter)));
@@ -55,6 +68,6 @@ app.post('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFi
 app.post('/createLunch', createlunch.createLunch(databaseAdapter));
 app.post('/createLocation', createlocation.createLocation(databaseAdapter));
 app.put('/setlunchlocation', setlunchlocation.updateLunch(databaseAdapter));
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
 });

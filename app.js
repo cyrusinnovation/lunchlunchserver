@@ -7,11 +7,12 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var login = require('./routes/login');
-var getlunches = require('./routes/getlunches');
+var getLunches = require('./routes/getlunches');
 var locations = require('./routes/locations');
-var createlunch = require('./routes/createlunch');
-var createlocation = require('./routes/createlocation');
-var setlunchlocation = require('./routes/setlunchlocation');
+var createLunch = require('./routes/createlunch');
+var createLocation = require('./routes/createlocation');
+var createPerson = require('./routes/createperson');
+var setLunchLocation = require('./routes/setlunchlocation');
 var config = require('./config.json');
 var buddy = require('./routes/buddy');
 var PersonRetrieverFactory = require('./model/PersonRetrieverFactory');
@@ -62,12 +63,13 @@ app.all('*', function (req, res, next) {
 
 app.get('/', routes.index);
 app.post('/login', login.login(personRetrieverFactory.buildPersonRetriever(databaseAdapter)));
-app.post('/getLunches', getlunches.getLunches(lunchRetrieverFactory.buildLunchRetriever(databaseAdapter)));
+app.post('/getLunches', getLunches.getLunches(lunchRetrieverFactory.buildLunchRetriever(databaseAdapter)));
 app.get('/locations', locations.locations(locationRetrieverFactory.buildLocationRetriever(databaseAdapter)));
 app.post('/findBuddy', buddy.findBuddy(lunchBuddyFinderFactory.buildLunchBuddyFinder(databaseAdapter)));
-app.post('/createLunch', createlunch.createLunch(databaseAdapter));
-app.post('/createLocation', createlocation.createLocation(databaseAdapter));
-app.put('/setlunchlocation', setlunchlocation.updateLunch(databaseAdapter));
+app.post('/createLunch', createLunch.createLunch(databaseAdapter));
+app.post('/createLocation', createLocation.createLocation(databaseAdapter));
+app.post('/createPerson', createPerson.createPerson(databaseAdapter));
+app.put('/setLunchLocation', setLunchLocation.updateLunch(databaseAdapter));
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });

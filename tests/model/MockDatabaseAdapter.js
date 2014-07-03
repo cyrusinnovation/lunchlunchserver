@@ -5,7 +5,7 @@ var MockDatabaseAdapter = function () {
 
 }
 var peopleToReturn,
-    lunchesToReturn, locationToReturn, errorToReturn;
+    lunchesToReturn, locationToReturn, errorToReturn, personToReturn,personSaveErrorToReturn;
 MockDatabaseAdapter.prototype = {
 
     getPeople: function (filter, peopleGotten) {
@@ -26,7 +26,7 @@ MockDatabaseAdapter.prototype = {
         lunchesToReturn = lunch
     },
 
-    saveLunch: function (lunch, callback) {
+    addLunch: function (lunch, callback) {
         this.lunchToSave = lunch;
         callback();
     },
@@ -37,9 +37,14 @@ MockDatabaseAdapter.prototype = {
 
     },
 
-    saveLocation: function(location, callback){
+    addLocation: function(location, callback){
         this.locationToSave = location;
         callback(this.errorToReturn, this.locationToReturn)
+    },
+
+    addPerson: function(person,  callback){
+        this.personToSave = person;
+        callback(this.personSaveErrorToReturn, this.personToReturn);
     }
 
 };

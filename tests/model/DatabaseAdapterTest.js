@@ -183,7 +183,7 @@ suite('DatabaseAdapterTest', function () {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
 
         var lunchToSave = {person1: donna, person2: rose, dateTime: new Date(2019, 17, 1), location: digIn}
-        databaseAdapter.saveLunch(lunchToSave, function () {
+        databaseAdapter.addLunch(lunchToSave, function () {
             databaseAdapter.getLunches({person1: donna, person2: rose}, {}, function (lunchesRetrieved) {
                 assert.equal(lunchesRetrieved.length, 1);
                 assert.deepEqual(lunchesRetrieved[0], lunchToSave);
@@ -232,7 +232,7 @@ suite('DatabaseAdapterTest', function () {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
 
         const locationToSave = {name: 'Dead Poet', address: ' 450 Amsterdam Ave #1', zipCode: '10024'};
-        databaseAdapter.saveLocation(locationToSave, function (error, locationSaved) {
+        databaseAdapter.addLocation(locationToSave, function (error, locationSaved) {
             databaseAdapter.getLocations({name:'Dead Poet'}, {}, function (locationsRetrieved) {
                 assert.equal(locationsRetrieved.length, 1);
                 assert.deepEqual(locationsRetrieved[0], locationSaved);
@@ -242,5 +242,17 @@ suite('DatabaseAdapterTest', function () {
         });
     });
 
+    test('can save a person to the DB', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
 
+        const personToSave = {firstName: 'Martha', lastName: 'Jones', email: 'drjones@gmail.com'};
+        databaseAdapter.addPerson(personToSave, function (error, personSaved) {
+            databaseAdapter.getPeople({firstName:'Martha'}, {}, function (peopleGotten) {
+                assert.equal(peopleGotten.length, 1);
+                assert.deepEqual(peopleGotten[0], personSaved);
+                assert.deepEqual(personToSave, personSaved);
+                testDone();
+            });
+        });
+    });
 })

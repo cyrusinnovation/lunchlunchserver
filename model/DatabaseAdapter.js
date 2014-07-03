@@ -15,6 +15,9 @@ DatabaseAdapter.prototype = {
             peopleGotten(people);
         });
     },
+    addPerson: function(person, personSaved){
+        this.peopleCollection.insert(person, personSaved);
+    },
 
     getLunches: function (filter,options, lunchesGotten) {
         this.lunchCollection.find(filter,options,function (error, lunches) {
@@ -28,17 +31,18 @@ DatabaseAdapter.prototype = {
         });
     },
 
-    saveLocation:function(location, locationSaved){
+    addLocation:function(location, locationSaved){
         this.locationCollection.insert(location, locationSaved);
 
     },
-    saveLunch: function (lunch, callback) {
+    addLunch: function (lunch, callback) {
         this.lunchCollection.insert(lunch, callback);
     },
 
     setLunchLocation: function(lunch, location, callback){
         this.lunchCollection.update({'_id':lunch._id},{$set:{'location': location}}, callback);
     }
+
 };
 
 module.exports = DatabaseAdapter;

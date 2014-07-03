@@ -75,7 +75,7 @@ suite('CreateLocationTest', function () {
 
         assert.deepEqual(this.databaseAdapter.locationToSave, locationToSave);
 
-        assert.deepEqual(locationSent, "");
+        assert.equal(locationSent, undefined);
 
 
         testDone();

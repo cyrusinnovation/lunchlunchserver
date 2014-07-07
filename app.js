@@ -28,7 +28,6 @@ var locationRetrieverFactory = new LocationRetrieverFactory();
 var app = express();
 var DatabaseAdapter = require('./model/DatabaseAdapter');
 var databaseAdapter = new DatabaseAdapter(config('lunchBuddy').mongoUrl);
-console.log(config('lunchBuddy'));
 var APITokenHelper = require('./helper/ApiTokenHelper');
 var apiTokenHelper = new APITokenHelper();
 

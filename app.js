@@ -13,7 +13,9 @@ var createLunch = require('./routes/createlunch');
 var createLocation = require('./routes/createlocation');
 var createPerson = require('./routes/createperson');
 var setLunchLocation = require('./routes/setlunchlocation');
-var config = require('./config.json');
+
+
+var config = require('konphyg')(__dirname+"/config");
 var buddy = require('./routes/buddy');
 var PersonRetrieverFactory = require('./model/PersonRetrieverFactory');
 var personRetrieverFactory = new PersonRetrieverFactory();
@@ -25,12 +27,12 @@ var LocationRetrieverFactory = require('./model/LocationRetrieverFactory');
 var locationRetrieverFactory = new LocationRetrieverFactory();
 var app = express();
 var DatabaseAdapter = require('./model/DatabaseAdapter');
-var databaseAdapter = new DatabaseAdapter(config.mongoUrl);
+var databaseAdapter = new DatabaseAdapter(config('lunchBuddy').mongoUrl);
+console.log(config('lunchBuddy'));
 var APITokenHelper = require('./helper/ApiTokenHelper');
 var apiTokenHelper = new APITokenHelper();
 
 // all environments
-
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -50,16 +52,15 @@ if ('development' == app.get('env')) {
 }
 
 app.all('*', function (req, res, next) {
-    if(apiTokenHelper.checkForApiToken(req, function(containsToken){
-        if(containsToken){
+    if (apiTokenHelper.checkForApiToken(req, function (containsToken) {
+        if (containsToken) {
             next();
-        }else{
-           return res.send({error:"no api token"});
+        } else {
+            return res.send({error: "no api token"});
         }
     }));
 
 });
-
 
 app.get('/', routes.index);
 app.post('/login', login.login(personRetrieverFactory.buildPersonRetriever(databaseAdapter)));

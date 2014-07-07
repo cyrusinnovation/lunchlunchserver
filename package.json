@@ -10,7 +10,8 @@
         "jade": "*",
         "mongodb": "*",
         "monk": "*",
-        "hashmap": "*"
+        "hashmap": "*",
+        "konphyg": "*"
     },
     "devDependencies": {
         "mocha": "*",

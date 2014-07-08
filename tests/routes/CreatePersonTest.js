@@ -20,10 +20,10 @@ suite('CreatePersonTest', function () {
 
     test('will save person using database adapter', function (testDone) {
 
-        var person = {firstName: 'Michael', lastName:'Holt', email:'mholt@fairplay.net'};
-        var personToSend = {firstName: 'Aftersaving, this is returned', lastName:'dodododobo', email:'and such'};
+        var person = {firstName: 'Michael', lastName: 'Holt', email: 'mholt@fairplay.net'};
+        var personToSend = {firstName: 'Aftersaving, this is returned', lastName: 'dodododobo', email: 'and such'};
         this.databaseAdapter.personToReturn = personToSend;
-        this.databaseAdapter.personSaveErrorToReturn =null;
+        this.databaseAdapter.personSaveErrorToReturn = null;
         var route = new createPerson.createPerson(this.databaseAdapter)
 
         var request = {body: {person: person}};
@@ -52,19 +52,20 @@ suite('CreatePersonTest', function () {
 
     test('if an error occurs will call send with nothing in it', function (testDone) {
 
-        var person = {firstName: 'Michael', lastName:'Holt', email:'mholt@fairplay.net'};
-        var personToSend = {firstName: 'Aftersaving, this is returned', lastName:'dodododobo', email:'and such'};
+        var person = {firstName: 'Michael', lastName: 'Holt', email: 'mholt@fairplay.net'};
+        var personToSend = {firstName: 'Aftersaving, this is returned', lastName: 'dodododobo', email: 'and such'};
         this.databaseAdapter.personToReturn = personToSend;
-        this.databaseAdapter.personSaveErrorToReturn ="some error";
+        var errorThatOccured = "some error";
+        this.databaseAdapter.personSaveErrorToReturn = errorThatOccured;
         var route = new createPerson.createPerson(this.databaseAdapter)
 
         var request = {body: {person: person}};
 
 
         var sendWasCalled = false;
-        var personSent = null;
-        var mockSend = function (person) {
-            personSent = person;
+        var infoSent = null;
+        var mockSend = function (sendContents) {
+            infoSent = sendContents;
             sendWasCalled = true;
         };
         var response = new MockResponse(mockSend);
@@ -76,7 +77,7 @@ suite('CreatePersonTest', function () {
 
         assert.deepEqual(this.databaseAdapter.personToSave, person);
 
-        assert.deepEqual(personSent, undefined);
+        assert.deepEqual(infoSent, {error: errorThatOccured});
 
 
         testDone();

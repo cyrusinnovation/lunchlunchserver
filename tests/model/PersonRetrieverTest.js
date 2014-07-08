@@ -39,6 +39,19 @@ suite('PersonRetrieverTest', function () {
 
     });
 
+    test('will not explode when no people are retrieved', function (testDone) {
+        var personRetriever = new PersonRetriever(databaseAdapter);
+
+        allPeopleFound = undefined;
+        personRetriever.getPerson('iamthenight@gmail.com', function(personRetrieved){
+            assert.equal(undefined, personRetrieved);
+            assert.deepEqual({},optionsPassedIn);
+            assert.deepEqual( filterPassedIn,{email: { $regex :RegExp('^iamthenight@gmail.com$'), $options:'i'}});
+            testDone();
+        })
+
+    });
+
 
     test('will retrieve somone else by email', function (testDone) {
         var personRetriever = new PersonRetriever(databaseAdapter);

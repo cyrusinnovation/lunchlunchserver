@@ -47,7 +47,7 @@ suite('DatabaseAdapterTest', function () {
 
     });
 
-    teardown(function(teardownComplete){
+    teardown(function (teardownComplete) {
         var people = database.get('people');
         people.drop();
         var lunches = database.get('lunch');
@@ -55,7 +55,6 @@ suite('DatabaseAdapterTest', function () {
         var locations = database.get('location');
         locations.drop(teardownComplete);
     });
-
 
 
     test('can get all people from the database adapter', function (testDone) {
@@ -87,12 +86,12 @@ suite('DatabaseAdapterTest', function () {
         });
     });
     test('search people functional test, a partial match should not return anything', function (testDone) {
-        var filter =  {email:{ $regex : new RegExp('^dnob$'), $options:'i'}};
+        var filter = {email: { $regex: new RegExp('^dnob$'), $options: 'i'}};
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getPeople(filter, {}, function (peopleRetrieved) {
-            assert.equal( peopleRetrieved.length,0);
+            assert.equal(peopleRetrieved.length, 0);
         });
-        var filter =  {email:{ $regex : new RegExp('^DnOble@outlook.com$'), $options:'i'}};
+        var filter = {email: { $regex: new RegExp('^DnOble@outlook.com$'), $options: 'i'}};
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getPeople(filter, {}, function (peopleRetrieved) {
             assert.equal(peopleRetrieved.length, 1);
@@ -101,7 +100,7 @@ suite('DatabaseAdapterTest', function () {
         });
     });
 
-   test('can get all locations from the database adapter', function (testDone) {
+    test('can get all locations from the database adapter', function (testDone) {
         var databaseAdapter = new DatabaseAdapter(mongoUrl);
         databaseAdapter.getLocations({}, {}, function (locationsRetrieved) {
             assert.deepEqual(locationsRetrieved, expectedLocations);
@@ -215,7 +214,7 @@ suite('DatabaseAdapterTest', function () {
         var location = {name: 'Grey Dog', address: '242 W 16th St', zipCode: '10011'};
 
         var lunchId = '123412341213';
-        var lunchWithoutLocation = {_id: lunchId  ,person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
+        var lunchWithoutLocation = {_id: lunchId, person1: donna, person2: rose, dateTime: new Date(2019, 17, 1)}
         database.get('lunch').insert(lunchWithoutLocation);
 
         databaseAdapter.setLunchLocation(lunchWithoutLocation, location, function () {
@@ -233,7 +232,7 @@ suite('DatabaseAdapterTest', function () {
 
         const locationToSave = {name: 'Dead Poet', address: ' 450 Amsterdam Ave #1', zipCode: '10024'};
         databaseAdapter.addLocation(locationToSave, function (error, locationSaved) {
-            databaseAdapter.getLocations({name:'Dead Poet'}, {}, function (locationsRetrieved) {
+            databaseAdapter.getLocations({name: 'Dead Poet'}, {}, function (locationsRetrieved) {
                 assert.equal(locationsRetrieved.length, 1);
                 assert.deepEqual(locationsRetrieved[0], locationSaved);
                 assert.deepEqual(locationToSave, locationSaved);
@@ -247,12 +246,28 @@ suite('DatabaseAdapterTest', function () {
 
         const personToSave = {firstName: 'Martha', lastName: 'Jones', email: 'drjones@gmail.com'};
         databaseAdapter.addPerson(personToSave, function (error, personSaved) {
-            databaseAdapter.getPeople({firstName:'Martha'}, {}, function (peopleGotten) {
+            databaseAdapter.getPeople({firstName: 'Martha'}, {}, function (peopleGotten) {
                 assert.equal(peopleGotten.length, 1);
                 assert.deepEqual(peopleGotten[0], personSaved);
                 assert.deepEqual(personToSave, personSaved);
                 testDone();
             });
+        });
+    });
+
+    test('save a person to the DB, maintains unique email address', function (testDone) {
+        var databaseAdapter = new DatabaseAdapter(mongoUrl);
+
+        const personToSave = {firstName: 'Martha', lastName: 'Jones', email: 'drjones@gmail.com'};
+        const personWithSameEmail = {firstName: 'Henry', lastName: 'Jones', email: 'drjones@gmail.com'};
+        databaseAdapter.addPerson(personToSave, function () {
+            databaseAdapter.addPerson(personWithSameEmail, function (error, personSaved) {
+                databaseAdapter.getPeople({ email: 'drjones@gmail.com'}, {}, function (peopleGotten) {
+                    assert.equal(peopleGotten.length, 1);
+                    assert.deepEqual(peopleGotten[0], personToSave);
+                    testDone();
+                });
+            })
         });
     });
 })

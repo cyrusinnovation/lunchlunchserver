@@ -6,6 +6,7 @@ var DatabaseAdapter = function (databaseUrl) {
     this.databaseUrl = databaseUrl;
     this.database = monk(this.databaseUrl);
     this.peopleCollection = this.database.get('people');
+    this.peopleCollection.ensureIndex({'email':1},{unique:true})
     this.lunchCollection = this.database.get('lunch');
     this.locationCollection = this.database.get('location');
 }

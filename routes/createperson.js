@@ -9,7 +9,6 @@ exports.createPerson = function(databaseAdapter) {
                 response.send(personSaved);
             }
             else{
-                console.log(error);
                 response.send({error:error});
             }
         })

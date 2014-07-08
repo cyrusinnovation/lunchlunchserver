@@ -46,6 +46,7 @@ suite('PopulateDatabaseWithStubData', function () {
         var lunches = database.get('lunch');
         lunches.drop();
         lunches.insert(stubLunches, done);
+        done();
 
     });
 })

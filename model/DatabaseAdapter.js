@@ -9,7 +9,8 @@ var DatabaseAdapter = function (databaseUrl) {
     this.peopleCollection.ensureIndex({'email':1},{unique:true})
     this.lunchCollection = this.database.get('lunch');
     this.locationCollection = this.database.get('location');
-}
+};
+
 DatabaseAdapter.prototype = {
     getPeople: function (filter,options, peopleGotten) {
         this.peopleCollection.find(filter, options, function (error, people) {

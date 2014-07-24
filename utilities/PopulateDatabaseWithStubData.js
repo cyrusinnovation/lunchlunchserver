@@ -14,7 +14,7 @@ suite('PopulateDatabaseWithStubData', function () {
     var stubPeople = [ironman, thor, wasp, antman, hulk ];
 
     var location1 =  {name:'Dos Toros', address:'11 Carmine St', zipCode:'10014'};
-    var location2 =  {name:'Dig In', address:'350 Hudson Street',     zipCode:'10014'};
+    var location2 =  {name:'Dig Inn', address:'350 Hudson Street', zipCode:'10014'};
     var location3 =  {name:'Dive Bar', address:'732 Amsterdam Ave', zipCode:'10025'};
     var location4 =  {name: 'Gordon Ramsay at The London NYC', address:'151 W 54th St', zipCode:'10019'};
     var location5 =  {name:'Grays Papaya', address:'2090 Broadway', zipCode:'10023'};
@@ -30,7 +30,7 @@ suite('PopulateDatabaseWithStubData', function () {
         {person1: thor, person2: hulk, dateTime: '2015-02-03T20:00:00.000Z', location: location3},
         {person1: wasp, person2: antman, dateTime: '2013-09-12T20:00:00.000Z', location: location2},
         {person1: wasp, person2: hulk, dateTime: '2017-10-07T20:00:00.000Z', location: location1},
-        {person1: ironman, person2: hulk, dateTime: '2019-14-05T20:00:00.000Z'},
+        {person1: ironman, person2: hulk, dateTime: '2019-14-05T20:00:00.000Z'}
     ];
 
     test('Not really a test, just a means to populate the database', function (done) {
